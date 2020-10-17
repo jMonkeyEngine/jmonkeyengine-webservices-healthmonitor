@@ -1,0 +1,12 @@
+{
+    "privateData": "",
+    "dataPass": "",
+    "dataUser": "monitor",
+    "publicData": "",
+    "smtpUser": "",
+    "smtpPassword": "",
+    "smtpHost": "smtp.gmail.com",
+    "smtpPort": 587,
+    "smtpSender": "",
+    "monitorEmail": ""
+}

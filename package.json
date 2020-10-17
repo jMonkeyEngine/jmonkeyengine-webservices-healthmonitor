@@ -1,0 +1,24 @@
+{
+  "name": "jme-healthmonitor",
+  "version": "1.0.0",
+  "description": "Health Monitor for jMonkeyEngine server",
+  "main": "main.js",
+  "dependencies": {
+    "node-fetch": "^2.6.1",
+    "nodemailer": "^6.4.14"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/riccardobl/jme-healthmonitor.git"
+  },
+  "author": "Riccardo Balbo",
+  "license": "BSD-3-Clause",
+  "bugs": {
+    "url": "https://github.com/riccardobl/jme-healthmonitor/issues"
+  },
+  "homepage": "https://github.com/riccardobl/jme-healthmonitor#readme"
+}
