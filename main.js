@@ -59,7 +59,7 @@ const Notifications = {
         }
         if (currentState.count == 1 && !isNegative(stateValue)) {
             send();
-        } else if (currentState.count == 2 && isNegative(stateValue)) { // negative states need to happen at least twice.
+        } else if (currentState.count == 3 && isNegative(stateValue)) { // negative states need to happen at least twice.
             send();
         }
     }
@@ -106,7 +106,7 @@ async function diskGuard(disk) {
     const healthData = await fetchEndPoint("disks", true);
     const rows = healthData.split("\n");
     let failed = true;
-    let usage = "undefined";
+    let usage = 0;
     try {
         for (let i in rows) {
             const row = rows[i].trim();
@@ -122,9 +122,9 @@ async function diskGuard(disk) {
         }
     } catch (e) {
         console.error(e);
-        failed = true;
+        throw new Error("Can't fetch disk usage. Monitor offline?");
     }
-    Notifications.send(failed ? "DISK_WARN" : "DISK_FINE", [usage, guardValue,disk],disk);
+    if(usage>=0)Notifications.send(failed ? "DISK_WARN" : "DISK_FINE", [usage, guardValue,disk],disk);
 }
 
 async function memoryGuard() {
@@ -136,9 +136,11 @@ async function memoryGuard() {
         if (isNaN(healthData)) throw "Invalid memory size " + healthData;
     } catch (e) {
         console.error(e);
-        healthData = -1;
+        throw new Error("Can't fetch memory usage. Monitor offline?");
     }
-    Notifications.send(healthData < guardValue ? "MEMORY_WARN" : "MEMORY_FINE", [healthData, guardValue]);
+    if(healthData>=0)Notifications.send(healthData < guardValue ? "MEMORY_WARN" : "MEMORY_FINE", [healthData, guardValue]);
+    else throw new Error("Invalid memory usage. Monitor offline?");
+
 }
 
 
@@ -154,9 +156,11 @@ async function containersHealth() {
         }
     } catch (e) {
         console.error(e);
-        unhealthyContainers.push("...and more...");
+        // unhealthyContainers.push("...and more...");
+        throw new Error("Can't fetch containers. Monitor offline?");
     }
     Notifications.send(unhealthyContainers.length != 0 ? "CONTAINERS_WARN" : "CONTAINERS_FINE", [unhealthyContainers.toString()]);
+    
 }
 
 
