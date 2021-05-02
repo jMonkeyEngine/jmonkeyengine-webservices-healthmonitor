@@ -59,7 +59,7 @@ const Notifications = {
         }
         if (currentState.count == 1 && !isNegative(stateValue)) {
             send();
-        } else if (currentState.count == 3 && isNegative(stateValue)) { // negative states need to happen at least twice.
+        } else if (currentState.count == 6 && isNegative(stateValue)) { // negative states need to happen at least twice.
             send();
         }
     }
@@ -105,7 +105,7 @@ async function diskGuard(disk) {
     const guardValue = 90;
     const healthData = await fetchEndPoint("disks", true);
     const rows = healthData.split("\n");
-    let failed = true;
+    let failed = false;
     let usage = 0;
     try {
         for (let i in rows) {
@@ -124,7 +124,7 @@ async function diskGuard(disk) {
         console.error(e);
         throw new Error("Can't fetch disk usage. Monitor offline?");
     }
-    if(usage>=0)Notifications.send(failed ? "DISK_WARN" : "DISK_FINE", [usage, guardValue,disk],disk);
+    if(usage>0)Notifications.send(failed ? "DISK_WARN" : "DISK_FINE", [usage, guardValue,disk],disk);
 }
 
 async function memoryGuard() {
