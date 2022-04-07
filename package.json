@@ -5,7 +5,7 @@
   "main": "main.js",
   "dependencies": {
     "node-fetch": "^2.6.1",
-    "nodemailer": "^6.4.14"
+    "nodemailer": "^6.6.1"
   },
   "devDependencies": {},
   "scripts": {
